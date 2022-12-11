@@ -105,3 +105,33 @@ var isOk=()=>{
     }
   });
 }
+
+var average_price=()=>{
+  data=tbl2json( "#dataTbl", schema_ )
+  price=Array.from(new Set(data.map(p=>parseInt(p['eur_per_m2']))))
+  return price.reduce((a, b) => a + b, 0)/price.length
+}
+
+var tbl2json_by_ra=(rate)=>{
+  data=tbl2json( "#dataTbl", schema_ ).filter(x=> x['rate']==rate);
+
+  var url = "data:text/plain;charset=utf-8," + encodeURIComponent( JSON.stringify(data,null,4) );
+    $("#res-container").append(`
+    <a href="${url}" download="data.json">
+        download data, rate: ${rate}
+    </a><br>
+    `.trim());
+  return data
+}
+
+var tbl2json_by_id=(id)=>{
+  data=tbl2json( "#dataTbl", schema_ ).filter(x=> x['id']==id);
+
+  var url = "data:text/plain;charset=utf-8," + encodeURIComponent( JSON.stringify(data,null,4) );
+    $("#res-container").append(`
+    <a href="${url}" download="data.json">
+        download data, id: ${id}
+    </a><br>
+    `.trim());
+  return data
+}
